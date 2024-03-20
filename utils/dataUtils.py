@@ -16,9 +16,9 @@ OUTPUT_TABLE_SYMPTOMS = Path("..", "output", "symptomsTable.tsv")
 
 def addJitterCol(df, origCol, jitterCol, sd=0.01):
     """
-    Add a column "jitterCol" with random jittering applied to the values in "origCol".
-    @param df: A C{pandas DataFrame}.
-    @param origCol: The name of the column whose values you want to apply jittering to.
+    Add a column C{jitterCol} with random jittering applied to the values in C{origCol}.
+    @param df: A C{pd.DataFrame}.
+    @param origCol: The name of the column which jittering should be applied to.
     @param jitterCol: The name of the column to be created, containing the values that
     have been jittered.
     """
@@ -28,8 +28,8 @@ def addJitterCol(df, origCol, jitterCol, sd=0.01):
 
 def dataFrameAgrdt(df):
     """
-    @param df: The pandas dataframe returned by calling dataFrameCusma.
-    @return: A C{pd.DataFrame} containing only tests with an Ag-RDT result available.
+    @param df: A C{pd.DataFrame} with a column "agrdt".
+    @return: A C{pd.DataFrame} containing only tests with an Ag-RDT result.
     """
     return df.dropna(subset=("agrdt"))
 
@@ -38,17 +38,20 @@ def dataFrameFirstPosPcr(df):
     """
     Return a data frame containing only data points that correspond to the first
     positive PCR of a person within an infection.
+
+    @param df: A C{pd.DataFrame} with a column "isFirstPosPcr".
+    @return: A C{pd.DataFrame} containing only tests that mark the first positive PCR
+    in an infection.
     """
     return df[df.isFirstPosPcr == 1].copy()
 
 
 def dataFrameIndependent(df):
     """
-    @param df: The pandas dataframe returned by calling dataFrameCusma.
-    @return: A dataframe that only has one test per person (the first) so that test data
-    points are independent of each other.
+    @param df: A C{pd.DataFrame} with columns "pcrDate" and "personHash".
+    @return: A dataframe that contains only one test per person (the first) so that
+    test data points are independent of each other.
     """
-
     # Make sure that values are sorted by pcr date so that only the first test will be
     # kept for each person to keep things consistent.
     df = df.sort_values("pcrDate", ignore_index=True)
@@ -57,7 +60,7 @@ def dataFrameIndependent(df):
 
 def dataFramePCRpos(df):
     """
-    @param df: The pandas dataframe returned by calling dataFrameCusma.
+    @param df: A C{pd.DataFrame} with a column "pcrPositive".
     @return: A C{pd.DataFrame} containing only data with positive PCR result.
     """
     return df[df.pcrPositive].copy()
@@ -65,7 +68,7 @@ def dataFramePCRpos(df):
 
 def dataFrameSymptoms(df):
     """
-    @param df: The pandas dataframe returned by calling dataFrameCusma.
+    @param df: A C{pd.DataFrame} with a column "symptoms".
     @return: A dataframe that only has tests in them where the respective person was
     symptomatic.
     """
@@ -73,6 +76,11 @@ def dataFrameSymptoms(df):
 
 
 def getPCRsOutsideVariantPrevalentRanges(df):
+    """
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing only PCR tests from SARS-CoV-2 variant
+    transition time, i.e. when no variant made up >= 90% of samples in Berlin.
+    """
     return df[
         (
             (df.pcrDate >= DATE_RANGE_DOMINANT_WILDTYPE[1])
@@ -91,7 +99,11 @@ def getPCRsOutsideVariantPrevalentRanges(df):
 
 def returnDeltaOmicronTransitionPCRs(df):
     """
-    Return data points from the time of delta/omicron transition.
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing only PCR tests from the time of variant
+    transition from VOC Delta to VOC Omicron.
+
+    Return data points from the time of Delta/Omicron transition.
     """
     return df[
         (df.pcrDate > DATE_RANGE_DOMINANT_DELTA[1])
@@ -101,7 +113,11 @@ def returnDeltaOmicronTransitionPCRs(df):
 
 def removeDeltaOmicronPCRs(df):
     """
-    Remove data points from the time when delta/omicron typing PCRs were done
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
+    transition from VOC Delta to VOC Omicron.
+
+    Remove data points from the time when Delta/Omicron typing PCRs were done
     (Dec 2021 - Jan 2022) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
     high viral load level samples only).
@@ -114,7 +130,11 @@ def removeDeltaOmicronPCRs(df):
 
 def returnWtAlphaTransitionPCRs(df):
     """
-    Retrun data points from the time of wildtype/alpha transition.
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing only PCR tests from the time of variant
+    transition from Wildtype to VOC Alpha.
+
+    Return data points from the time of Wildtype/Alpha transition.
     """
     return df[
         (df.pcrDate > DATE_RANGE_DOMINANT_WILDTYPE[1])
@@ -124,7 +144,11 @@ def returnWtAlphaTransitionPCRs(df):
 
 def removeWtAlphaPCRs(df):
     """
-    Remove data points from the time when wildtype/alpha typing PCRs were done
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
+    transition from Wildtype to VOC Alpha.
+
+    Remove data points from the time when Wildtype/Alpha typing PCRs were done
     (Feb 2021 - March 2021) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
     high viral load level samples only).
@@ -137,7 +161,11 @@ def removeWtAlphaPCRs(df):
 
 def removeAlphaDeltaPCRs(df):
     """
-    Remove data points from the time when alpha/delta typing PCRs were done
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
+    transition from VOC Alpha to VOC Delta.
+
+    Remove data points from the time when Alpha/Delta typing PCRs were done
     (May 2021 - July 2021) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
     high viral load level samples only).
@@ -149,6 +177,12 @@ def removeAlphaDeltaPCRs(df):
 
 
 def removeAllUnclearVariantOrTypingPCRs(df):
+    """
+    @param df: A C{pd.DataFrame} with a column "pcrDate".
+    @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
+    transition from Wildtype to VOC Alpha, VOC Alpha to VOC Delta or VOC Delta to
+    VOC Omicron.
+    """
     df = removeWtAlphaPCRs(df)
     df = removeAlphaDeltaPCRs(df)
     df = removeDeltaOmicronPCRs(df)
@@ -157,16 +191,18 @@ def removeAllUnclearVariantOrTypingPCRs(df):
 
 def removeReleaseTesting(df):
     """
-    Remove data points from release testing.
+    @param df: A C{pd.DataFrame} with a column "releaseTesting".
+    @return: A C{pd.DataFrame} containing no PCR tests from release testing,
+    i.e. PCR testing 7 days after a first positive PCR, in order to go back to work.
     """
     return df[df.reasonPres != "releaseTesting"].copy()
 
 
 def standardize(df, origCol, standCol):
     """
-    @param df: A C{pandas DataFrame}.
+    @param df: A C{pd.DataFrame}.
     @param origCol: The name of the column whose values you want to standardize
-        (turn into z-scores).
+    (turn into z-scores).
     @param standCol: The name of the column to be created, containing the standardized
     values.
     """
@@ -175,7 +211,7 @@ def standardize(df, origCol, standCol):
 
 def dataFrameNoRecovered(df):
     """
-    @param df: The pandas dataframe returned by calling dataFrameCusma.
+    @param df: A {pd.DataFrame} with a column "recovered".
     @return: A C{pd.DataFrame} containing no PCRs of people who we know have had a
     previous SARS-CoV-2 infection at the time of testing.
     """
@@ -183,19 +219,38 @@ def dataFrameNoRecovered(df):
 
 
 def dataFrameFemaleMale(df):
+    """
+    @param df: A {pd.DataFrame} with a column "gender".
+    @return: A C{pd.DataFrame} containing only PCRs of people whose gender is either "M"
+    or "F".
+    """
     return df[df.gender.isin(("F", "M"))].copy()
 
 
-def IQRQuartiles(column):
-    return tuple(column.quantile([0.25, 0.75]))
+def IQRQuartiles(series):
+    """
+    @param df: A {pd.Series} with numerical values.
+    @return: A C{tuple} containing the first and the third quartile of the values in
+    C{series}.
+    """
+    return tuple(series.quantile([0.25, 0.75]))
 
 
-def IQR(column):
-    q25, q75 = IQRQuartiles(column)
+def IQR(series):
+    """
+    @param df: A {pd.Series} with numerical values.
+    @return: The interquartile range (IQR) of the values in C{series}.
+    """
+    q25, q75 = IQRQuartiles(series)
     return q75 - q25
 
 
 def roundHalfUp(value, decimals=2):
+    """
+    @param value: A C{float}.
+    @param decimals: The C{int} number of decimals to round to.
+    @return: A rounded C{float}, when rounding up from half.
+    """
     with decimal.localcontext() as ctx:
         d = decimal.Decimal(value)
         ctx.rounding = decimal.ROUND_HALF_UP
@@ -203,10 +258,24 @@ def roundHalfUp(value, decimals=2):
 
 
 def mapRoundHalfUp(values, decimals=2):
+    """
+    @param values: A C{iterable} of C{float} values.
+    @param decimals: The C{int} number of decimals to round to.
+    @return: A C{list} of rounded C{float} values, when rounding up from half.
+    """
     return [roundHalfUp(value, decimals=decimals) for value in values]
 
 
 def createNewString(stat1, stat2, stat1Value, stat2Value):
+    """
+    @param stat1: A C{str} describing the first summary statistic.
+    @param stat2: A C{str} describing the second summary statistic
+    @param stat1Value: A C{int} or C{float} summary statistic.
+    @param stat2Value: A single or an C{iterable} of C{int} or C{float} summary
+    statistics.
+    @return: A C{str} containing the value of both summary statistics, rounded to two
+    decimals places.
+    """
     stat1Value = float(stat1Value)
     try:
         stat2Value = float(stat2Value)
@@ -229,6 +298,15 @@ def createNewString(stat1, stat2, stat1Value, stat2Value):
 
 
 def writeTableEmployees(outfile, df, colFuncsDict):
+    """
+    @param outfile: A path to the file the output should be written to.
+    @param df: A C{pd.DataFrame} containing columns that characterize the study
+    population.
+    @param colFuncsDict: A C{dict} mapping a column name to (multiple) functions
+    that compute a summary statistic on the column.
+    A summary table of population characteristics will be created.
+    """
+
     summaryDict = dict(df.groupby("symptoms2").agg(colFuncsDict))
     summaryDictTotal = dict(df.agg(colFuncsDict))
 
@@ -290,6 +368,14 @@ def writeTableEmployees(outfile, df, colFuncsDict):
 
 
 def writeTableSymptoms(outfile, df, colFuncsDict):
+    """
+    @param outfile: A path to the file the output should be written to.
+    @param df: A C{pd.DataFrame} containing binary columns indicating whether the
+    person experienced the symptom.
+    @param colFuncsDict: A C{dict} mapping a column name to (multiple) functions
+    that compute a summary statistic on the column.
+    A summary table of symptom counts will be created.
+    """
     summaryDict = dict(df[df.symptoms2 == "Symptomatic"].agg(colFuncsDict))
 
     with open(outfile, "w") as oS:
@@ -305,6 +391,12 @@ def writeTableSymptoms(outfile, df, colFuncsDict):
 
 
 def writeSummaryTables(df):
+    """
+    @param df: A C{pd.DataFrame} containing the study's data.
+    Two summary tables (tsv files) will be created. One specifying symptoms listed in
+    the questionnaire and corresponding counts, the other one providing counts on
+    gender, age, symptomatic status and PCR tests and Ag-RDTs.
+    """
     symptoms = sorted(
         [
             "fatigue",
@@ -381,7 +473,10 @@ def writeSummaryTables(df):
 
 
 def createDataFramesFigures(df):
-
+    """
+    @param df: A C{pd.DataFrame} containing the study's data.
+    @return: A C{tuple} of C{pd.DataFrames} used for the different figures.
+    """
     # Date frame containing only PCRs with corresponding Ag-RDT results.
     dfAgrdt = df.dropna(subset=["agrdt"]).copy()
 
