@@ -68,15 +68,15 @@ def returnPlotDir():
 
 def getXticks(nCats, nCatsHue, hue, dodge=True):
     """
-    Returns the positions for the x-tick labels if there is a factor (C{hue}) variable
+    Return the positions for the x-tick labels if there is a factor (C{hue}) variable
     to stratify by.
     @param nCats: A C{int} specifying the number of categories for the main variable
-        (i.e. the x-axes variable).
+    (i.e. the x-axis variable).
     @param nCatsHue: A C{int} specifying the number of categories for the factor
-        variable (C{hue}).
+    variable (C{hue}).
     @param hue: A C{str} specifying the name of the factor variable.
-    @param dodge: A C{bool} specifying whether the data corresponding to the categories
-        in hue are dodged in the displayed plot.
+    @param dodge: A C{bool} specifying whether the data corresponding to the
+    categories in hue are dodged in the displayed plot.
     @return: A C{list} of C{floats} specifying the positions of the x-tick labels.
     """
     assert nCatsHue in (2, 3, 4), (
@@ -97,7 +97,7 @@ def getXticks(nCats, nCatsHue, hue, dodge=True):
 
 def getPointCoords(ax, scatter=True):
     """
-    @param ax: A C{matplotlib} axes containing a point plot.
+    @param ax: A C{matplotlib} axes object containing a point plot.
     @return: The x and y coordinates of each point in the plot.
     """
     if scatter:
@@ -130,17 +130,17 @@ def addNumbersWithoutHue(
     size=8,
 ):
     """
-    Add values to each bar or point given in a plot.
-    @param ax: A C{matplotlib} axes for plotting.
+    Add values to each bar or point in a plot.
+    @param ax: A C{matplotlib axes} object for plotting.
     @param colors: A C{list} or C{str} specifying the color in which count labels are
-        shown.
-    @param barplot: A C{bool} value indicating whether the counts are to be added to
-        a barplot (as opposed to a pointplot).
-    @param values: An C{iterable} of values to plot instead of inferring them from the
-        plot itself.
-    @param weight: A C{str} specifying the font type when annotating the axis.
-    @param centre: A C{bool} specifying whether to center the value labels.
-    @param size: An C{int} specifying the font size of the value labels.
+    shown.
+    @param barplot: A C{bool} indicating whether the counts are to be added to a
+    barplot (as opposed to a pointplot).
+    @param values: An C{iterable} of values to plot instead of inferring them from
+    the plot itself.
+    @param weight: A C{str} specifying the annotation font type.
+    @param centre: A C{bool} specifying whether to center the annotations.
+    @param size: An C{int} specifying the font size of the annotations.
     """
 
     # This is to get rid of the warning message when converting masked values to nan.
@@ -211,8 +211,9 @@ def addNumbersWithoutHue(
 
 def annotateWithLetter(ax, letter, size=20, coords=(-0.05, 1)):
     """
-    Annotate a C{matplotlib} axes with a C{letter} in the upper left corner of the plot.
-    @param ax: A C{matplotlib} axes.
+    Annotate a C{matplotlib} axes object with a letter in the upper left corner of
+    the plot.
+    @param ax: A C{matplotlib} axes object.
     @param letter: A C{str} specifying the letter to annotate C{ax} with.
     @param coords: The x, y coordinate to position the letter at.
     """
@@ -222,12 +223,11 @@ def annotateWithLetter(ax, letter, size=20, coords=(-0.05, 1)):
 
 def annotateWithLetters(axes, size=20, coords=(-0.05, 1)):
     """
-    Annotate each C{matplotlib} axes in axes with a letter in alphabetical
-    order.
+    Annotate each C{matplotlib} axes object with a letter in alphabetical order.
     @param size: The font size of the letters.
-    @param axes: An C{iterable} of C{matplotlib} axes.
-    @param coords: The x, y coordinate for each figure to position the
-        letters at.
+    @param axes: An C{iterable} of C{matplotlib axes} objects.
+    @param coords: For each figure, the x, y coordinate to position the respective
+    letter at.
     """
     # Give each subplot a letter (A, B, C...).
     for letter, ax in zip(string.ascii_uppercase, axes):
@@ -248,26 +248,24 @@ def returnCountLabels(
 ):
     """
     Return labels specifying counts for a plot with data stratified by 2 variables.
-    @param df: A C{pd.DataFrame} containing the columns C{var} and C{subVar1}.
+    @param df: A C{pd.DataFrame} containing the columns C{var} and C{subVar}.
     @param var: A C{str} specifying the main variable for which to return count labels.
     @param cats: A C{list} of C{str}s of the categories of the given variable C{var}
-        by which to stratify, given in the display order or a C{dict} mapping the
-        categories to the corresponding C{str} to be displayed in the plot. The order
-        of the keys specify the display order.
+    by which to stratify, given in the display order, or a C{dict} mapping the
+    categories to the corresponding C{str} to be displayed in the plot. The order
+    of the keys specify the display order.
     @param subVar: A C{str} specifying a variable to stratify by.
     @param subVarCats: An C{iterable} of C{str}s specifying the categories of C{subVar}.
-    @param sep1: A C{str} specifying how to separate the category C{str}s in the
-        x-ticklabels for var from those of subVar1.
+    @param sep1: A C{str} specifying how to separate the category C{str}s displayed
+    in the x-ticklabels for C{var} from those of C{subVar}.
     @param sep2: A C{str} specifying the separator between categories in an x-ticklabel
-        if C{dodge}==False.
+    if C{dodge}==False.
     @param countTuple: A C{bool} specifying whether to display counts as tuples
-        (if dodge==False).
-    @param showNCounts: A C{bool} specifying whether to have the "n=" prefix for showing
-        counts on the x-axis.
-    @return: Two C{list}s of C{str} labels, the first one containing labels for the
-        data stratified by all three variables (C{var}, "subVar1", "subVar2"),
-        the second one containing labels for the data stratified only by the first two
-        variables (C{var}, "subVar1").
+    (if dodge==False).
+    @param showNCounts: A C{bool} specifying whether to use the "n=" prefix for showing
+    counts on the x-axis.
+    @return: A C{list} of C{str} labels indicating data counts when stratifying by
+    C{var} and C{subVar}.
     """
 
     # Return labels indicating the counts for each category present in a plot.
@@ -358,6 +356,57 @@ def boxNSwarmplot(
     showNCounts=True,
     ax=None,
 ):
+    """
+    Create a boxplot with a swarmplot on top of it. Both the boxplot and the
+    swarmplot are stratified by the variable given in C{hue}.
+
+    @param df: A C{pd.DataFrame} containing columns "x" and "y".
+    @param x: A C{str} specifying the x-variable.
+    @param y: A C{str} specifying the y-variable.
+    @param xLabel: A C{str} specifying the x-axis label.
+    @param yLabel: A C{str} specifying the y-axis label.
+    @param xCats: A C{list} of C{str}s of the categories of C{x} by which to stratify,
+    given in the display order or a C{dict} mapping the categories to the
+    corresponding C{str} to be displayed in the plot. The order of the keys specify
+    the display order.
+    @param dfSwarmplot: A second C{pd.DataFrame} used for making the swarmplot (e.g. if
+    there are too many data points for plotting in one category of the original data
+    frame C{df}).
+    @param palBoxplot: A C{dict} specifying the color mapping for each category in xCats
+    or hue in the boxplot. Alternatively a C{list} or C{tuple} specifying the color
+    of each box individually. If set to 'none', no color will be used.
+    @param palSwarmplot: A C{dict} specifying the color mapping for each
+    category in xCats or hue in the swarmplot.
+    @param legend: A C{matplotlib.artist} object of the legend to be shown in the plot.
+    @param hueSwarmplot: A C{str} specifying which variable to use for stratifying
+    the swarmplot.
+    @param hueBoxplot: A C{str} specifying which variable to use for stratifying the
+    boxplot.
+    @param hueOrder: A C{iterable} specifying the display order of the categories
+    specified by hue.
+    @param dodge: A C{bool} indicating whether to dodge data points in the swarmplot
+    that are stratified wrt C{hueSwarmplot}.
+    @param countTuple: A C{bool} specifying whether to display counts as tuples
+    (if dodge==False).
+    @param markeredgecolor: A C{str} specifying the color for the markeredge of a dot in
+    the swarmplot.
+    @param alphaBoxplot: A C{float} specifying the opacity of the boxplot.
+    @param alphaSwarmplot: A C{float} specifying the opacity of the markers in the
+    swarmplot.
+    @param ySwarmplot: A C{str} specifying the y-variable used in the swarmplot. This
+    can be useful if we want to plot jittered data but still want to show the
+    original stats in the boxplot.
+    @param axesFontSize: A C{int} specifying the font size of the axis labels.
+    @param ticksFontSize: A C{int} specifying the font size of the tick labels.
+    @param addCounts: A C{bool} specifying whether to add counts to x-tick labels.
+    @param rotateCountLabels: A C{bool} specifying whether to rotate the count labels
+    on the x-axis.
+    @param showNCounts: A C{bool} specifying whether to use the "n=" prefix for showing
+    counts on the x-axis.
+    @param ax: A C{matplotlib axes} object for plotting.
+    @return: The C{matlotlib axes} object used for plotting.
+    """
+
     return boxNStripOrSwarmplot(
         df,
         x,
@@ -419,54 +468,55 @@ def boxNStripOrSwarmplot(
     ax=None,
 ):
     """
-    Create a boxplot with a swarmplot on top of it. Both the boxplot and the swarmplot
-    are stratified by C{hue}.
+    Create a boxplot with a stripplot or swarmplot on top of it. Both the boxplot and
+    the strip/swarmplot are stratified by the variable given in C{hue}.
     @param df: A C{pd.DataFrame} containing columns "x" and "y".
-    @param x: A C{str} specifying the variable appearing on the x-axis.
-    @param y: A C{str} specifying the variable appearing on the y-axis.
+    @param x: A C{str} specifying the x-variable.
+    @param y: A C{str} specifying the y-variable.
     @param xLabel: A C{str} specifying the x-axis label.
     @param yLabel: A C{str} specifying the y-axis label.
     @param xCats: A C{list} of C{str}s of the categories of C{x} by which to stratify,
-        given in the display order or a C{dict} mapping the categories to the
-        corresponding C{str} to be displayed in the plot. The order of the keys specify
-        the display order.
+    given in the display order or a C{dict} mapping the categories to the
+    corresponding C{str} to be displayed in the plot. The order of the keys specify
+    the display order.
     @param dfStripOrSwarmplot: A second C{pd.DataFrame} used for making the strip or
-        swarmplot (e.g. if there are too many data points for plotting in one category
-        of the original data frame C{df}).
+    swarmplot (e.g. if there are too many data points for plotting in one category
+    of the original data frame C{df}).
     @param stripplot: A C{bool} specifying whether to make a stripplot (as opposed to
-        a swarmplot).
+    a swarmplot).
     @param palBoxplot: A C{dict} specifying the color mapping for each category in xCats
-        or hue in the Boxplot. Alternatively a C{list} or C{tuple} specifying the color
-        of each box individually. If set to 'none', no color will be used.
+    or hue in the boxplot. Alternatively a C{list} or C{tuple} specifying the color
+    of each box individually. If set to 'none', no color will be used.
     @param palStripOrSwarmplot: A C{dict} specifying the color mapping for each
-        category in xCats or hue in the strip or swarmplot.
-    @param legend: A C{matplotlib object} of the legend to be shown in the plot.
+    category in xCats or hue in the strip or swarmplot.
+    @param legend: A C{matplotlib.artist} object of the legend to be shown in the plot.
     @param hueStripOrSwarmplot: A C{str} specifying which variable to use for
-        stratifying the strip or swarmplot.
+    stratifying the strip or swarmplot.
     @param hueBoxplot: A C{str} specifying which variable to use for stratifying the
-        boxplot.
-    @param hueOrder: A C{iterable} specifying the display order of categories in hue.
+    boxplot.
+    @param hueOrder: A C{iterable} specifying the display order of the categories
+    specified by hue.
     @param dodge: A C{bool} indicating whether to dodge data points in the strip or
-        swarmplot that are stratified wrt C{hueStripOrSwarmplot}.
+    swarmplot that are stratified wrt C{hueStripOrSwarmplot}.
     @param countTuple: A C{bool} specifying whether to display counts as tuples
     (if dodge==False).
     @param markeredgecolor: A C{str} specifying the color for the markeredge of a dot in
-        the swarmplot.
+    the swarmplot.
     @param alphaBoxplot: A C{float} specifying the opacity of the boxplot.
     @param alphaSwarmplot: A C{float} specifying the opacity of the markers in the
-        swarmplot.
+    swarmplot.
     @param yStripOrSwarmplot: A C{str} specifying the y-variable used in the strip or
-        swarmplot. This can be useful if we want to plot jittered data but still want
-        to show the original stats in the boxplot.
-    @param axesFontSize: A C{int} specifying the font size of the axes labels.
+    swarmplot. This can be useful if we want to plot jittered data but still want
+    to show the original stats in the boxplot.
+    @param axesFontSize: A C{int} specifying the font size of the axis labels.
     @param ticksFontSize: A C{int} specifying the font size of the tick labels.
     @param addCounts: A C{bool} specifying whether to add counts to x-tick labels.
     @param rotateCountLabels: A C{bool} specifying whether to rotate the count labels
-        on the x-axis.
-    @param showNCounts: A C{bool} specifying whether to have the "n=" prefix for showing
-        counts on the x-axis.
-    @param ax: A C{matplotlib} axes for plotting.
-    @return: The C{matlotlib} axis used for plotting.
+    on the x-axis.
+    @param showNCounts: A C{bool} specifying whether to use the "n=" prefix for showing
+    counts on the x-axis.
+    @param ax: A C{matplotlib axes} object for plotting.
+    @return: The C{matlotlib axes} object used for plotting.
     """
     assert hueStripOrSwarmplot == hueBoxplot or hueStripOrSwarmplot and not hueBoxplot
     dodge = False if not hueStripOrSwarmplot else dodge
@@ -626,9 +676,9 @@ def boxNStripOrSwarmplot(
 
 def computeTicks(x, step=5):
     """
-    Computes x-ticks based on step size (C{step}).
+    Compute positions of x-ticks based on step size (C{step}).
     @param x: A list-like object of integers or floats.
-    @param step: Tick frequency.
+    @param step: Tick frequency (with respect to C{x}).
     """
     xMax, xMin = math.ceil(max(x)), math.floor(min(x))
     dMax, dMin = (
@@ -650,15 +700,15 @@ def plotMeansNErrors(
     xs, ys, yerrs, colors, ax, markers=None, markersize=20, fontsize=FONT_SIZE_PLOT
 ):
     """
-    Make a plot showing means (with values annotated) and corresponding error bars.
+    Create a plot showing means (with annotated values) and corresponding error bars.
     @param xs: An C{iterable} of x-coordinates.
     @param ys: An C{iterable} of y-coordinates.
     @param yerrs: An C{iterable} of errors (as pairs of lower and upper limit) to plot
-        along the y-axis.
+    along the y-axis.
     @param colors: An C{iterable} of colors for each value (of length len(xs)).
-    @param ax: A C{matplotlib} axes for plotting.
+    @param ax: A C{matplotlib axes} object used for plotting.
     @param markers: An C{iterable} of markers (e.g. 'o') to use for plotting the mean
-        values.
+    values.
     @param markersize: A C{int} specifying the size of the markers.
     @param fontsize: A C{int} specifying the size of the font.
     """
@@ -692,16 +742,16 @@ def _addErrors(errors, cats1, cats2, palette, y_coords, x_coords, ax):
     """
     Add the errorbars (94% credible intervals) calculated by MCMC sampling to the plot.
     @param errors: A C{list} of C{np.array}s, each containing the lower and upper limit
-        of a 94% credible interval for a corresponding point in the plot.
+    of a 94% credible interval for a corresponding point in the plot.
     @param cats1: The categories of variable C{var} which the errors were computed for.
     @param cats2: The categories of the second variable ("var2" used for further
-        stratification) which the errors were computed for.
+    stratification) which the errors were computed for.
     @param palette: A C{list} or C{dict} specifying the color used for each datapoint.
-    @param y_coords: A {np.array} containing the y-coordinates of the points in the
-        plot.
-    @param x_coords: A {np.array} containing the x-coordinates of the points in the
-        plot.
-    @param ax: A C{matplotlib} axes for plotting.
+    @param y_coords: Am {np.array} containing the y-coordinates of the points in the
+    plot.
+    @param x_coords: An {np.array} containing the x-coordinates of the points in the
+    plot.
+    @param ax: A C{matplotlib axes} object with errorbars added.
     """
     # Flatten list and turn into (2, n) dimensional array. Leave out errors with value 0
     # (no point in pointplot).
@@ -758,20 +808,19 @@ def pointPlotNErrors(
     ax=None,
 ):
     """
-    Create point plot with error bars estimated using Bayesian MCMC. Returns a C{tuple}
-    of calculated means.
+    Create a point plot with error bars estimated using Bayesian MCMC. Returns a
+    C{tuple} of calculated means.
     @param x: A C{str} specifying the variable appearing on the x-axis.
     @param y: A C{str} specifying the variable appearing on the y-axis.
     @param df: A C{pd.DataFrame} containing columns "x" and "y".
     @param statsDict: A nested C{defaultdict} with three levels with the following
-        keys on each level:
-        level 1: The variable (C{var}) of interest, e.g. "symptoms",
-        level 2: The corresponding categories (C{cats}) of interest, e.g. 0
-        or 1.
-        level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
-        AgRDT result or PCR positivity, the corresponding 95% credible interval ("hdi")
-        and the corresponding mean ("mean"). Thus the probabilities correspond to
-        estimates for AgRDT sensitivity or PCR positive rate.
+    keys on each level:
+    level 1: The variable (C{var}) of interest, e.g. "symptoms",
+    level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
+    level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
+    AgRDT result or PCR positivity, the corresponding 95% credible interval ("hdi")
+    and the corresponding mean ("mean"). Thus the probabilities correspond to
+    estimates for AgRDT sensitivity or PCR positive rate.
     @param palette: A C{dict} specifying the color mapping for each category in x.
         Alternatively a list of colors or a single RGBA tuple specifying a color to
         use for each category can be passed.

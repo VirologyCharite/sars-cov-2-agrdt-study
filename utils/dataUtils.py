@@ -37,7 +37,7 @@ def dataFrameAgrdt(df):
 def dataFrameFirstPosPcr(df):
     """
     Return a data frame containing only data points that correspond to the first
-    positive PCR of a person within an infection.
+    positive PCR in an infection.
 
     @param df: A C{pd.DataFrame} with a column "isFirstPosPcr".
     @return: A C{pd.DataFrame} containing only tests that mark the first positive PCR
@@ -61,7 +61,7 @@ def dataFrameIndependent(df):
 def dataFramePCRpos(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrPositive".
-    @return: A C{pd.DataFrame} containing only data with positive PCR result.
+    @return: A C{pd.DataFrame} containing only data points with a positive PCR result.
     """
     return df[df.pcrPositive].copy()
 
@@ -69,8 +69,8 @@ def dataFramePCRpos(df):
 def dataFrameSymptoms(df):
     """
     @param df: A C{pd.DataFrame} with a column "symptoms".
-    @return: A dataframe that only has tests in them where the respective person was
-    symptomatic.
+    @return: A C{pd.DataFrame} containing only tests where the corresponding person was
+    symptomatic at the time of testing.
     """
     return df[df.symptoms == 1].copy()
 
@@ -79,7 +79,7 @@ def getPCRsOutsideVariantPrevalentRanges(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrDate".
     @return: A C{pd.DataFrame} containing only PCR tests from SARS-CoV-2 variant
-    transition time, i.e. when no variant made up >= 90% of samples in Berlin.
+    transition times, i.e. when no variant made up >= 90% of samples in Berlin.
     """
     return df[
         (
@@ -111,7 +111,7 @@ def returnDeltaOmicronTransitionPCRs(df):
     ].copy()
 
 
-def removeDeltaOmicronPCRs(df):
+def removeDeltaOmicronTransitionPCRs(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrDate".
     @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
@@ -120,7 +120,7 @@ def removeDeltaOmicronPCRs(df):
     Remove data points from the time when Delta/Omicron typing PCRs were done
     (Dec 2021 - Jan 2022) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
-    high viral load level samples only).
+    high enough viral load samples only).
     """
     return df[
         (df.pcrDate <= DATE_RANGE_DOMINANT_DELTA[1])
@@ -142,7 +142,7 @@ def returnWtAlphaTransitionPCRs(df):
     ].copy()
 
 
-def removeWtAlphaPCRs(df):
+def removeWtAlphaTransitionPCRs(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrDate".
     @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
@@ -151,7 +151,7 @@ def removeWtAlphaPCRs(df):
     Remove data points from the time when Wildtype/Alpha typing PCRs were done
     (Feb 2021 - March 2021) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
-    high viral load level samples only).
+    high enough viral load samples only).
     """
     return df[
         (df.pcrDate <= DATE_RANGE_DOMINANT_WILDTYPE[1])
@@ -159,7 +159,7 @@ def removeWtAlphaPCRs(df):
     ].copy()
 
 
-def removeAlphaDeltaPCRs(df):
+def removeAlphaDeltaTransitionPCRs(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrDate".
     @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
@@ -168,7 +168,7 @@ def removeAlphaDeltaPCRs(df):
     Remove data points from the time when Alpha/Delta typing PCRs were done
     (May 2021 - July 2021) so that they don't give a false impression of viral
     load levels for those variants (typing PCRs in this period were done for
-    high viral load level samples only).
+    high enough viral load samples only).
     """
     return df[
         (df.pcrDate <= DATE_RANGE_DOMINANT_ALPHA[1])
@@ -180,12 +180,12 @@ def removeAllUnclearVariantOrTypingPCRs(df):
     """
     @param df: A C{pd.DataFrame} with a column "pcrDate".
     @return: A C{pd.DataFrame} containing no PCR tests from the time of variant
-    transition from Wildtype to VOC Alpha, VOC Alpha to VOC Delta or VOC Delta to
+    transition from Wildtype to VOC Alpha, VOC Alpha to VOC Delta, or VOC Delta to
     VOC Omicron.
     """
-    df = removeWtAlphaPCRs(df)
-    df = removeAlphaDeltaPCRs(df)
-    df = removeDeltaOmicronPCRs(df)
+    df = removeWtAlphaTransitionPCRs(df)
+    df = removeAlphaDeltaTransitionPCRs(df)
+    df = removeDeltaOmicronTransitionPCRs(df)
     return df
 
 
@@ -193,7 +193,7 @@ def removeReleaseTesting(df):
     """
     @param df: A C{pd.DataFrame} with a column "releaseTesting".
     @return: A C{pd.DataFrame} containing no PCR tests from release testing,
-    i.e. PCR testing 7 days after a first positive PCR, in order to go back to work.
+    i.e. PCR tests 7 days after a first positive PCR, in order to go back to work.
     """
     return df[df.reasonPres != "releaseTesting"].copy()
 
@@ -201,7 +201,7 @@ def removeReleaseTesting(df):
 def standardize(df, origCol, standCol):
     """
     @param df: A C{pd.DataFrame}.
-    @param origCol: The name of the column whose values you want to standardize
+    @param origCol: The name of the column whose values should be standardized
     (turn into z-scores).
     @param standCol: The name of the column to be created, containing the standardized
     values.
@@ -221,8 +221,8 @@ def dataFrameNoRecovered(df):
 def dataFrameFemaleMale(df):
     """
     @param df: A {pd.DataFrame} with a column "gender".
-    @return: A C{pd.DataFrame} containing only PCRs of people whose gender is either "M"
-    or "F".
+    @return: A C{pd.DataFrame} containing only PCRs of people whose gender is either
+    "M" (male) or "F" (female).
     """
     return df[df.gender.isin(("F", "M"))].copy()
 
@@ -230,7 +230,7 @@ def dataFrameFemaleMale(df):
 def IQRQuartiles(series):
     """
     @param df: A {pd.Series} with numerical values.
-    @return: A C{tuple} containing the first and the third quartile of the values in
+    @return: A 2-C{tuple} containing the first and the third quartile of the values in
     C{series}.
     """
     return tuple(series.quantile([0.25, 0.75]))
@@ -249,7 +249,7 @@ def roundHalfUp(value, decimals=2):
     """
     @param value: A C{float}.
     @param decimals: The C{int} number of decimals to round to.
-    @return: A rounded C{float}, when rounding up from half.
+    @return: A rounded C{float}, rounding up from half.
     """
     with decimal.localcontext() as ctx:
         d = decimal.Decimal(value)
@@ -261,7 +261,7 @@ def mapRoundHalfUp(values, decimals=2):
     """
     @param values: A C{iterable} of C{float} values.
     @param decimals: The C{int} number of decimals to round to.
-    @return: A C{list} of rounded C{float} values, when rounding up from half.
+    @return: A C{list} of rounded C{float} values, rounding up from half.
     """
     return [roundHalfUp(value, decimals=decimals) for value in values]
 
@@ -270,11 +270,11 @@ def createNewString(stat1, stat2, stat1Value, stat2Value):
     """
     @param stat1: A C{str} describing the first summary statistic.
     @param stat2: A C{str} describing the second summary statistic
-    @param stat1Value: A C{int} or C{float} summary statistic.
+    @param stat1Value: A C{int} or C{float} summary statistic value.
     @param stat2Value: A single or an C{iterable} of C{int} or C{float} summary
-    statistics.
-    @return: A C{str} containing the value of both summary statistics, rounded to two
-    decimals places.
+    statistic values.
+    @return: A C{str} containing the value of both summary statistics (rounded to two
+    decimals places for C{float} values).
     """
     stat1Value = float(stat1Value)
     try:
@@ -371,7 +371,7 @@ def writeTableSymptoms(outfile, df, colFuncsDict):
     """
     @param outfile: A path to the file the output should be written to.
     @param df: A C{pd.DataFrame} containing binary columns indicating whether the
-    person experienced the symptom.
+    person experienced the respective symptom.
     @param colFuncsDict: A C{dict} mapping a column name to (multiple) functions
     that compute a summary statistic on the column.
     A summary table of symptom counts will be created.
