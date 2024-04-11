@@ -259,7 +259,7 @@ def roundHalfUp(value, decimals=2):
 
 def mapRoundHalfUp(values, decimals=2):
     """
-    @param values: A C{iterable} of C{float} values.
+    @param values: A iterable of C{float} values.
     @param decimals: The C{int} number of decimals to round to.
     @return: A C{list} of rounded C{float} values, rounding up from half.
     """
@@ -271,7 +271,7 @@ def createNewString(stat1, stat2, stat1Value, stat2Value):
     @param stat1: A C{str} describing the first summary statistic.
     @param stat2: A C{str} describing the second summary statistic
     @param stat1Value: A C{int} or C{float} summary statistic value.
-    @param stat2Value: A single or an C{iterable} of C{int} or C{float} summary
+    @param stat2Value: A single or an iterable of C{int} or C{float} summary
     statistic values.
     @return: A C{str} containing the value of both summary statistics (rounded to two
     decimals places for C{float} values).
@@ -519,23 +519,17 @@ def createDataFramesFigures(df):
     # samples are not representative for VOCs delta/omicron.
     # Also, release testing (done at the end of an infection) is not representative for
     # viral loads --> don't use.
-    # dfFigure2 = dfAllFirstPosPcrsSympNoRelease.copy()
-    # dfFigure2 = removeDeltaOmicronTyping(dfAllFirstPosPcrsSympNoRelease).copy()
     dfFigure2 = removeAllUnclearVariantOrTypingPCRs(
         dfAllFirstPosPcrsSympNoRelease
     ).copy()
     dfFigure2 = dfFigure2[dfFigure2.pcrDate >= date(2020, 12, 1)].copy()
-
     dfFigure2_A = dfFigure2.dropna(subset=["daysPostOnset", "variant"])
     dfFigure2_B = dfFigure2.dropna(subset=["variant", "agrdtYN"])
 
     # Figure 3
     # Data frame for Figure 3
     dfFigure3 = dataFrameFirstPosPcr(removeReleaseTesting(dfPos))
-    # dfFigureA2 = dataFrameFirstPosPcr(removeReleaseTesting(dfPos))
-    # dfFigureA2 = dataFrameFirstPosPcr(
-    #     removeReleaseTesting(removeDeltaOmicronTyping(dfPos))
-    # )
+
     dfFigureA2 = dataFrameFirstPosPcr(
         removeReleaseTesting(removeAllUnclearVariantOrTypingPCRs(dfPos))
     )

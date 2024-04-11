@@ -102,9 +102,9 @@ def makeRegressionDf(df, indVars, indCatVars, categories):
 
     @param df: A C{pd.DataFrame} containing the columns specified in C{indVars} and
         C{indCatVars}.
-    @param indVars: An C{iterable} of continuous independent variables used in the
+    @param indVars: An iterable of continuous independent variables used in the
         regression.
-    @param indCatVars: An C{iterable} of categorical independent variables used in the
+    @param indCatVars: An iterable of categorical independent variables used in the
         regression.
     @param categories: A nested C{dict} mapping the categories of one or more
         categorical variables to their designated categorical values.
@@ -148,9 +148,9 @@ def logisticRegressionDf(
     @param immunVar: A C{str} indicating which variable specifying the vaccination
         status to include as an input variable in the regression.
     @param outcome: A C{str} specifying the outcome variable of the regression.
-    @param indVars: An C{iterable} of C{str}s specifying the continuous independent
+    @param indVars: An iterable of C{str}s specifying the continuous independent
         variables to use in the regression.
-    @param indCatVars: An C{iterable} of C{str}s specifying the categorical independent
+    @param indCatVars: An iterable of C{str}s specifying the categorical independent
         variables to use in the regression.
     @param replaceVals: A C{dict} specifying for each column whose values should be
         replaced the mapping from old to new value.
@@ -191,7 +191,7 @@ def _calcPosteriorStatsProb(
         used in the logistic regression. For example, "Cat" could be added to the
         original name to make explicit that it is a categorical variable and the
         categories' codes are being used to specify each category.
-    @param cats: An C{iterable} of the categories of C{catVar}.
+    @param cats: An iterable of the categories of C{catVar}.
     @param catDict: A C{dict} mapping the original categories' names of C{catVar} to
         those currently used (e.g. might be codes instead of C{str}s).
     @param statsDict: A nested C{defaultdict} with three levels with the following
@@ -250,7 +250,7 @@ def sampleProb(
     @param df: A C{pd.DataFrame} containing the relevant data for the
         sampling (i.e. input variable (if any) and outcome as columns).
     @param outcome: A C{str} specifying the outcome variable.
-    @param catVars: A C{iterable} specifying the categorical variables (if any) to
+    @param catVars: An iterable specifying the categorical variables (if any) to
         stratify by.
     @param cats: A C{list} or C{dict} with values being lists (if more than one input
         variable is passed), specifying the categories/levels of C{var}.
@@ -265,8 +265,8 @@ def sampleProb(
     @param priors: A C{dict} specifying the priors for one or more input variables of
         the model. The C{dict} has to be usable by bambi.
     @param newData: A C{pd.DataFrame} with data to make posterior predictions with.
-    @return: The bambi model used for inference and posterior samples either as C{
-        np.ndarray} or as C{az.InferenceData} object.
+    @return: The bambi model used for inference and posterior samples either as
+    C{np.ndarray} or as C{az.InferenceData} object.
     """
     if formula is not None:
         assert bambi
@@ -368,24 +368,24 @@ def sampleProb2(
 
     @param df: A C{pd.DataFrame} containing a column C{catVar}.
     @param catVar: A C{str} specifying the independent variable used in the logistic
-        regression.
-    @param cats: An C{iterable} containing the categories (in the desired order) of
-        C{catVar}.
+    regression.
+    @param cats: An iterable containing the categories (in the desired order) of
+    catVar.
     @param statsDict: A nested C{defaultdict} with three levels with the following
-        keys on each level:
-        level 1: The variable (C{catVar}) of interest, e.g. "symptoms",
-        level 2: The corresponding categories (C{cats}) of interest, e.g. 0
-        or 1.
-        level 3: The posterior samples of probabilities ("prob"), e.g. for a
-        positive AgRDT result or PCR positivity, the corresponding 94%
-        credible interval ("hdi") and the corresponding mean ("mean"). Thus
-        the probabilities correspond to estimates for AgRDT sensitivity or
-        PCR positive rate.
+    keys on each level:
+    level 1: The variable (C{catVar}) of interest, e.g. "symptoms",
+    level 2: The corresponding categories (C{cats}) of interest, e.g. 0
+    or 1.
+    level 3: The posterior samples of probabilities ("prob"), e.g. for a
+    positive AgRDT result or PCR positivity, the corresponding 94%
+    credible interval ("hdi") and the corresponding mean ("mean"). Thus
+    the probabilities correspond to estimates for AgRDT sensitivity or
+    PCR positive rate.
     @param target_accept: A C{float} specifying the target acceptance rate for MCMC
-        sampling.
+    sampling.
     @param hdi_prob: The size of the highest posterior density interval.
     @param outcome: A C{str} specifying the variable used as the outcome in the
-        logistic regression.
+    logistic regression.
     @param seed: The random seed used for sampling of the posterior.
     """
     assert catVar is None and cats is None or catVar is not None and cats is not None
@@ -517,7 +517,7 @@ def sampleVl(
 
     @param df: A C{pd.DataFrame} containing the relevant data for the
         sampling (i.e. input variable (if any) and outcome as columns).
-    @param catVars: A C{iterable} specifying the categorical variables (if any) to
+    @param catVars: An iterable specifying the categorical variables (if any) to
         stratify by.
     @param likelihood: A C{str} specifying the likelihood function to use (must be
         either "normal" or "skewnormal").
@@ -593,7 +593,7 @@ def generateNewDataAgrdtSens(df, predDict, feature, featureCats):
     @param feature: A C{str} specifying the feature whose categories we want to make
         predictions for (e.g. predictions of antigen test sensitivity|viral load for
         each SARS-CoV-2 variant).
-    @param featureCats: An C{iterable} of the categories in C{feature}.
+    @param featureCats: An iterable of the categories in C{feature}.
     """
     vlMean = df.vl.mean()
     vlSd = df.vl.std()
@@ -641,7 +641,7 @@ def predictionsNewData(df, model, iData, predDict, feature, featureCats):
     @param feature: A C{str} specifying the feature whose categories we want to make
         predictions for (e.g. predictions of antigen test sensitivity|viral load for
         each SARS-CoV-2 variant).
-    @param featureCats: An C{iterable} of the categories in C{feature}.
+    @param featureCats: An iterable of the categories in C{feature}.
     """
 
     generateNewDataAgrdtSens(df, predDict, feature, featureCats)
@@ -684,7 +684,7 @@ def calcErrors(df, statsDict, outcome, errors, means, catVar, cats, seed=SEED):
     @param catVar: A C{str} specifying the variable of interest, e.g. "symptoms" or
         "variant". The errors of the outcome (e.g. AgRDT sensitivity) will be computed
         after stratifying the data by each category of C{catVar}.
-    @param cats: An C{iterable} containing the possible categories for C{catVar} (given
+    @param cats: An iterable containing the possible categories for C{catVar} (given
         in the order they appear in the plot).
     @param seed: The random seed used for sampling of the posterior.
     """

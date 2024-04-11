@@ -131,12 +131,12 @@ def addNumbersWithoutHue(
 ):
     """
     Add values to each bar or point in a plot.
-    @param ax: A C{matplotlib axes} object for plotting.
+    @param ax: A C{matplotlib} axes object for plotting.
     @param colors: A C{list} or C{str} specifying the color in which count labels are
     shown.
     @param barplot: A C{bool} indicating whether the counts are to be added to a
     barplot (as opposed to a pointplot).
-    @param values: An C{iterable} of values to plot instead of inferring them from
+    @param values: An iterable of values to plot instead of inferring them from
     the plot itself.
     @param weight: A C{str} specifying the annotation font type.
     @param centre: A C{bool} specifying whether to center the annotations.
@@ -225,7 +225,7 @@ def annotateWithLetters(axes, size=20, coords=(-0.05, 1)):
     """
     Annotate each C{matplotlib} axes object with a letter in alphabetical order.
     @param size: The font size of the letters.
-    @param axes: An C{iterable} of C{matplotlib axes} objects.
+    @param axes: An iterable of C{matplotlib} axes objects.
     @param coords: For each figure, the x, y coordinate to position the respective
     letter at.
     """
@@ -255,10 +255,10 @@ def returnCountLabels(
     categories to the corresponding C{str} to be displayed in the plot. The order
     of the keys specify the display order.
     @param subVar: A C{str} specifying a variable to stratify by.
-    @param subVarCats: An C{iterable} of C{str}s specifying the categories of C{subVar}.
+    @param subVarCats: An iterable of C{str}s specifying the categories of C{subVar}.
     @param sep1: A C{str} specifying how to separate the category C{str}s displayed
-    in the x-ticklabels for C{var} from those of C{subVar}.
-    @param sep2: A C{str} specifying the separator between categories in an x-ticklabel
+    in the x-tick labels for C{var} from those of C{subVar}.
+    @param sep2: A C{str} specifying the separator between categories in an x-tick label
     if C{dodge}==False.
     @param countTuple: A C{bool} specifying whether to display counts as tuples
     (if dodge==False).
@@ -377,12 +377,12 @@ def boxNSwarmplot(
     of each box individually. If set to 'none', no color will be used.
     @param palSwarmplot: A C{dict} specifying the color mapping for each
     category in xCats or hue in the swarmplot.
-    @param legend: A C{matplotlib.artist} object of the legend to be shown in the plot.
+    @param legend: A C{matplotlib} artist object of the legend to be shown in the plot.
     @param hueSwarmplot: A C{str} specifying which variable to use for stratifying
     the swarmplot.
     @param hueBoxplot: A C{str} specifying which variable to use for stratifying the
     boxplot.
-    @param hueOrder: A C{iterable} specifying the display order of the categories
+    @param hueOrder: An iterable specifying the display order of the categories
     specified by hue.
     @param dodge: A C{bool} indicating whether to dodge data points in the swarmplot
     that are stratified wrt C{hueSwarmplot}.
@@ -403,8 +403,8 @@ def boxNSwarmplot(
     on the x-axis.
     @param showNCounts: A C{bool} specifying whether to use the "n=" prefix for showing
     counts on the x-axis.
-    @param ax: A C{matplotlib axes} object for plotting.
-    @return: The C{matlotlib axes} object used for plotting.
+    @param ax: A C{matplotlib} axes object for plotting.
+    @return: The C{matplotlib} axes object used for plotting.
     """
 
     return boxNStripOrSwarmplot(
@@ -489,12 +489,12 @@ def boxNStripOrSwarmplot(
     of each box individually. If set to 'none', no color will be used.
     @param palStripOrSwarmplot: A C{dict} specifying the color mapping for each
     category in xCats or hue in the strip or swarmplot.
-    @param legend: A C{matplotlib.artist} object of the legend to be shown in the plot.
+    @param legend: A C{matplotlib} artist object of the legend to be shown in the plot.
     @param hueStripOrSwarmplot: A C{str} specifying which variable to use for
     stratifying the strip or swarmplot.
     @param hueBoxplot: A C{str} specifying which variable to use for stratifying the
     boxplot.
-    @param hueOrder: A C{iterable} specifying the display order of the categories
+    @param hueOrder: An iterable specifying the display order of the categories
     specified by hue.
     @param dodge: A C{bool} indicating whether to dodge data points in the strip or
     swarmplot that are stratified wrt C{hueStripOrSwarmplot}.
@@ -515,8 +515,8 @@ def boxNStripOrSwarmplot(
     on the x-axis.
     @param showNCounts: A C{bool} specifying whether to use the "n=" prefix for showing
     counts on the x-axis.
-    @param ax: A C{matplotlib axes} object for plotting.
-    @return: The C{matlotlib axes} object used for plotting.
+    @param ax: A C{matplotlib} axes object for plotting.
+    @return: The C{matplotlib} axes object used for plotting.
     """
     assert hueStripOrSwarmplot == hueBoxplot or hueStripOrSwarmplot and not hueBoxplot
     dodge = False if not hueStripOrSwarmplot else dodge
@@ -701,13 +701,13 @@ def plotMeansNErrors(
 ):
     """
     Create a plot showing means (with annotated values) and corresponding error bars.
-    @param xs: An C{iterable} of x-coordinates.
-    @param ys: An C{iterable} of y-coordinates.
-    @param yerrs: An C{iterable} of errors (as pairs of lower and upper limit) to plot
+    @param xs: An iterable of x-coordinates.
+    @param ys: An iterable of y-coordinates.
+    @param yerrs: An iterable of errors (as pairs of lower and upper limit) to plot
     along the y-axis.
-    @param colors: An C{iterable} of colors for each value (of length len(xs)).
-    @param ax: A C{matplotlib axes} object used for plotting.
-    @param markers: An C{iterable} of markers (e.g. 'o') to use for plotting the mean
+    @param colors: An iterable of colors for each value (of length len(xs)).
+    @param ax: An C{matplotlib} axes object used for plotting.
+    @param markers: An iterable of markers (e.g. 'o') to use for plotting the mean
     values.
     @param markersize: A C{int} specifying the size of the markers.
     @param fontsize: A C{int} specifying the size of the font.
@@ -740,7 +740,7 @@ def plotMeansNErrors(
 
 def _addErrors(errors, cats1, cats2, palette, y_coords, x_coords, ax):
     """
-    Add the errorbars (94% credible intervals) calculated by MCMC sampling to the plot.
+    Add the error bars (94% credible intervals) calculated by MCMC sampling to the plot.
     @param errors: A C{list} of C{np.array}s, each containing the lower and upper limit
     of a 94% credible interval for a corresponding point in the plot.
     @param cats1: The categories of variable C{var} which the errors were computed for.
@@ -751,7 +751,7 @@ def _addErrors(errors, cats1, cats2, palette, y_coords, x_coords, ax):
     plot.
     @param x_coords: An {np.array} containing the x-coordinates of the points in the
     plot.
-    @param ax: A C{matplotlib axes} object with errorbars added.
+    @param ax: A C{matplotlib} axes object with error bars added.
     """
     # Flatten list and turn into (2, n) dimensional array. Leave out errors with value 0
     # (no point in pointplot).
@@ -818,21 +818,21 @@ def pointPlotNErrors(
     level 1: The variable (C{var}) of interest, e.g. "symptoms",
     level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
     level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
-    AgRDT result or PCR positivity, the corresponding 95% credible interval ("hdi")
+    AgRDT result or PCR positivity, the corresponding 94% credible interval ("hdi")
     and the corresponding mean ("mean"). Thus the probabilities correspond to
     estimates for AgRDT sensitivity or PCR positive rate.
     @param palette: A C{dict} specifying the color mapping for each category in x.
-        Alternatively a list of colors or a single RGBA tuple specifying a color to
-        use for each category can be passed.
-    @param xorder: A C{iterable} specifying the display order of categories in x.
-    @param xTicklabels: An C{iterable} of x-tick labels to display.
+    Alternatively a list of colors or a single RGBA tuple specifying a color to
+    use for each category can be passed.
+    @param xorder: An iterable specifying the display order of categories in x.
+    @param xTicklabels: An iterable of x-tick labels to display.
     @param onlyHDI: A C{bool} specifying wheter to only add the HDI (not the means).
     @param join: A C{bool} indicating whether to join the dots in the scatter plot by
-        lines.
-    @param ax: A C{matplotlib} axes for plotting.
+    lines.
+    @param ax: A C{matplotlib} axes object for plotting.
     @return: A C{tuple} specifying the means calculated by Bayesian MCMC (in the order
-        of C{xorder}) if C{onlyHDI}==False, else the y-coordinates as inferred from
-        the given plot.
+    of C{xorder}) if C{onlyHDI}==False, else the y-coordinates as inferred from the
+    given plot.
     """
 
     # Calculate the type of error to plot as the error bars.
@@ -884,28 +884,28 @@ def pointPlotNErrorsNMeans(
     x, y, df, statsDict, pal, order, xTicklabels, join, size, asPercent, ax
 ):
     """
-    Create point plot with error bars estimated using Bayesian MCMC and
-    annotations in the plot specifying the means.
+    Create a point plot with error bars estimated using Bayesian MCMC and annotations
+    in the plot specifying the means.
     @param x: A C{str} specifying the variable appearing on the x-axis.
     @param y: A C{str} specifying the variable appearing on the y-axis.
     @param df: A C{pd.DataFrame} containing columns "x" and "y".
     @param statsDict: A nested C{defaultdict} with three levels with the following
-        keys on each level:
-        level 1: The variable (C{var}) of interest, e.g. "symptoms",
-        level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
-        level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
-        Ag-RDT result or PCR positivity, the corresponding 95% credible interval
-        ("hdi") and the corresponding mean ("mean"). Thus the probabilities correspond
-        to estimates for AgRDT sensitivity or PCR positive rate.
+    keys on each level:
+    level 1: The variable (C{var}) of interest, e.g. "symptoms",
+    level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
+    level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
+    Ag-RDT result or PCR positivity, the corresponding 94% credible interval
+    ("hdi") and the corresponding mean ("mean"). Thus the probabilities correspond
+    to estimates for AgRDT sensitivity or PCR positive rate.
     @param pal: A C{dict} specifying the color mapping for each category in x.
-        Alternatively a list of colors or a single RGBA tuple specifying a color to
-        use for each category can be passed.
-    @param order: A C{iterable} specifying the display order of categories in x.
-    @param xTicklabels: An C{iterable} of x-tick labels to display.
+    Alternatively a list of colors or a single RGBA tuple specifying a color to
+    use for each category can be passed.
+    @param order: An iterable specifying the display order of categories in x.
+    @param xTicklabels: An iterable of x-tick labels to display.
     @param join: A C{bool} indicating whether to join the dots in the scatter plot by
-        lines.
+    lines.
     @param size: An C{int} specifying the font size of the value labels.
-    @param ax: A C{matplotlib} axes for plotting.
+    @param ax: A C{matplotlib} axes object for plotting.
     """
     means = pointPlotNErrors(
         x,
@@ -963,7 +963,7 @@ def removeLegend(ax):
 def replaceLegend(ax, handles, loc="upper left"):
     """
     Replace the current legend in ax with a custom one.
-    @param ax: A C{matplotlib} axes for plotting.
+    @param ax: A C{matplotlib} axes object for plotting.
     @param handles: The handles you want to appear in the legend.
     @param loc: The location you want the legend to appear at.
     """
@@ -977,13 +977,13 @@ def replaceLegend(ax, handles, loc="upper left"):
 def addHDIlinesToRidgePlot(ax, iData, varNames, hdi=(0.03, 0.97)):
     """
     Add highest posterior density intervals as horizontal lines to a ridge plot.
-    @param ax: A C{matplotlib} axes containing a ridge plot representing the posterior
-        distributions of paramater values estimated by MCMC.
+    @param ax: A C{matplotlib} axes object containing a ridge plot representing the
+    posterior distributions of paramater values estimated by MCMC.
     @param iData: An C{arviz.InferenceData} object.
-    @param varNames: An C{iterable} specifying the variables (in the desired order)
-        for which to add HDI lines to the plot.
+    @param varNames: An iterable specifying the variables (in the desired order)
+    for which to add HDI lines to the plot.
     @param hdi: A C{tuple} specifying the HDI to plot.
-    @param omit: A C{iterable} of variables to not show in the plot.
+    @param omit: An iterable of variables not shown in the plot.
     """
     color = "black"
     i = 0
@@ -1031,19 +1031,19 @@ def ridgeForestPlot(
     ax=None,
 ):
     """
-    Make a mixture of a ridge and forest plot for displaying posterior distributions
-    of parameters as determined by an MCMC run.
+    Make a mix of a ridge and forest plot for displaying posterior distributions of
+    parameters as determined by an MCMC run.
     @param iData: An C{arviz.InferenceData} object.
-    @param varNames: An C{iterable} specifying the variables (in the desired order)
-        whose posterior distributions should be plotted.
-    @param yTickLabels: An C{iterable} of y-axis ticklabels to use.
+    @param varNames: An iterable specifying the variables (in the desired order)
+    whose posterior distributions should be plotted.
+    @param yTickLabels: An iterable of y-axis tick labels to use.
     @param figsize: A C{tuple} specifying the size of the output figure.
     @param fontsize: The size of the font to appear in the plot.
     @param xlim: A C{tuple} or C{None} specifying which (if any) limits to use for
-        the x-axis.
-    @param ax: The C{matplotlib} axes to use for plotting.
-    @return: A C{matplotlib.pyplot.axis} object containing a mix of a ridge and
-        a forest plot for displaying posterior distributions.
+    the x-axis.
+    @param ax: The C{matplotlib} axes object to use for plotting.
+    @return: A C{matplotlib} axes object containing a mix of a ridge and a forest
+    plot for displaying posterior distributions.
     """
     if not varNames:
         varNames = (
@@ -1115,8 +1115,8 @@ def ridgeForestPlot(
 
 def setFontSize(ax, size=15):
     """
-    Change the font size of all texts in a C{matplolib} axis.
-    @param ax: A C{matplotlib} axes for plotting.
+    Change the font size of all texts in a C{matplolib} axes object.
+    @param ax: A C{matplotlib} axes object for plotting.
     @param size: The font size you want the text in ax to have.
     """
     texts = (
@@ -1139,7 +1139,8 @@ def setFontSize(ax, size=15):
 
 
 def _levellingAgrdt(row, var="variant"):
-    # Utility function for plotting datapoints on separate levels in the spaghetti plot.
+    # Utility function for plotting data points on separate levels in the spaghetti
+    # plot.
     order = row[var]
     gapSize = 0.02
     times = -1 if not row["agrdt"] else 1
@@ -1157,6 +1158,26 @@ def spaghettiPlotCategorical(
     legend=None,
     fontsize=FONT_SIZE_PLOT,
 ):
+    """
+
+    @param ax: A C{matplotlib} axes object.
+    @param feature: A feature/variable you want to stratify by.
+    @param featureLevels: The categories of C{feature}.
+    @param predDict: A two-level nested C{dict}, with the first key specifying
+    C{feature} and the second key specifying either "data" to access the
+    self-specified values of all input variables (except viral loads) posterior
+    predictions were computed for, "ppSamples" to access predicted probabilities for
+    each of the data points and "vl" to access the viral load values predictions were
+    made for.
+    @param df: A C{pd.DataFrame} containing the original data that went into the
+    regression in order to plot observed data points.
+    @param legendLoc: An iterable of an x- and a y-coordinate specifying where to
+    position the legend in the plot.
+    @param palette: The palette of colors to use for plotting (a color for each
+    category in {featureLevels} is specified.
+    @param legend: A C{matplotlib} artist object of the legend to be shown in the plot.
+    @param fontsize: An C{int} specifying the size of the font.
+    """
     colors = (
         list(palette.values()) if palette else list(getattr(PALETTE, feature).values())
     )
@@ -1271,7 +1292,7 @@ def variantDominantTimesNumeric(df, timeVar="samplingMonth2"):
 def boldStr(text):
     """
     @param text: A C{str}.
-    @return: text in a bold font.
+    @return: C{text} in a bold font.
     """
     return r"$\bf{" + str(text) + "}$"
 
@@ -1301,7 +1322,7 @@ def plotVariantDominantTimes(
     ax_2.set_xlim(startPoints[0], endPoints[-1])
     ax_2.set_xticks(xTicks)
     ax_2.set_xticklabels(abbrvDictPaper["variant"].values())
-    # Set colors of x-ticklabels.
+    # Set colors of x-tick labels.
     for i, color in enumerate(palette.variant.values()):
         ax_2.get_xticklabels()[i].set_color(color)
     # Remove xticks.
