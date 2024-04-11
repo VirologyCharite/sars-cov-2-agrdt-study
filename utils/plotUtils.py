@@ -813,8 +813,8 @@ def pointPlotNErrors(
     @param x: A C{str} specifying the variable appearing on the x-axis.
     @param y: A C{str} specifying the variable appearing on the y-axis.
     @param df: A C{pd.DataFrame} containing columns "x" and "y".
-    @param statsDict: A nested C{defaultdict} with three levels with the following
-    keys on each level:
+    @param statsDict: A nested C{collections defaultdict} with three levels with the
+    following keys on each level:
     level 1: The variable (C{var}) of interest, e.g. "symptoms",
     level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
     level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
@@ -889,8 +889,8 @@ def pointPlotNErrorsNMeans(
     @param x: A C{str} specifying the variable appearing on the x-axis.
     @param y: A C{str} specifying the variable appearing on the y-axis.
     @param df: A C{pd.DataFrame} containing columns "x" and "y".
-    @param statsDict: A nested C{defaultdict} with three levels with the following
-    keys on each level:
+    @param statsDict: A nested C{collections defaultdict} with three levels with the
+    following keys on each level:
     level 1: The variable (C{var}) of interest, e.g. "symptoms",
     level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
     level 3: The posterior samples of probabilities ("prob"), e.g. for a positive

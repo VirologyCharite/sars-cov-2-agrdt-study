@@ -193,8 +193,8 @@ def _calcPosteriorStatsProb(
     @param cats: An iterable of the categories of C{catVar}.
     @param catDict: A C{dict} mapping the original categories' names of C{catVar} to
     those currently used (e.g. might be codes instead of C{str}s).
-    @param statsDict: A nested C{defaultdict} with three levels with the following
-    keys on each level:
+    @param statsDict: A nested C{collections defaultdict} with three levels with the
+    following keys on each level:
     level 1: The variable (C{var}) of interest, e.g. "symptoms",
     level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
     level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
@@ -370,8 +370,8 @@ def sampleProb2(
     regression.
     @param cats: An iterable containing the categories (in the desired order) of
     catVar.
-    @param statsDict: A nested C{defaultdict} with three levels with the following
-    keys on each level:
+    @param statsDict: A nested C{collections defaultdict} with three levels with the
+    following keys on each level:
     level 1: The variable (C{catVar}) of interest, e.g. "symptoms",
     level 2: The corresponding categories (C{cats}) of interest, e.g. 0 or 1.
     level 3: The posterior samples of probabilities ("prob"), e.g. for a positive
@@ -664,8 +664,8 @@ def calcErrors(df, statsDict, outcome, errors, means, catVar, cats, seed=SEED):
 
     @param df: A C{pd.DataFrame} with a column C{catVar} containing the categories
     in C{cats} (e.g. 0 vs 1 for asymptomatic vs symptomatic).
-    @param statsDict: A nested C{defaultdict} with three levels and the following
-    keys on each level:
+    @param statsDict: A nested C{collections defaultdict} with three levels and the
+    following keys on each level:
     level 1: The variable name which posterior statistics were computed for
     (e.g. C{catVar}).
     level 2: The category of variable C{catVar}.
@@ -675,9 +675,10 @@ def calcErrors(df, statsDict, outcome, errors, means, catVar, cats, seed=SEED):
     probabilities).
     @param outcome: A C{str} specifying the outcome variable of interest which you
     want to compute the errors for, e.g. AgRDT sensitivity.
-    @param errors: A C{defaultdict} storing the computed errors (credible intervals)
-    for each category.
-    @param means: A C{defaultdict} storing the computed means for each category.
+    @param errors: A C{collections defaultdict} storing the computed errors (credible
+    intervals) for each category.
+    @param means: A C{collections defaultdict} storing the computed means for each
+    category.
     @param catVar: A C{str} specifying the variable of interest, e.g. "symptoms" or
     "variant". The errors of the outcome (e.g. AgRDT sensitivity) will be computed
     after stratifying the data by each category of C{catVar}.
