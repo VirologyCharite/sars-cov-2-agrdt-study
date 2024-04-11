@@ -8,7 +8,7 @@ There are three data files in the `data` directory.
 
 ### agrdtData.tsv
 
-This file contains data from employee testing with the following columns:
+This file can be obtained upon request to the authors. It contains data from employee testing with the following columns:
 
 1. `pcrId`: A unique Id, given to every RT-PCR test.
 2. `pcrDate`: The date the RT-PCR was performed.
