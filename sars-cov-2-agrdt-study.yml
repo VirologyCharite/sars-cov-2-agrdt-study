@@ -1,0 +1,16 @@
+name: sars-cov-2-agrdt-study
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas=1.5.0
+  - seaborn=0.12.0
+  - numpy=1.21.6
+  - pymc=4.2.1
+  - bambi=0.9.1
+  - arviz=0.14.0
+  - pathlib
+  - scipy=1.9.1
+  - jupyter
