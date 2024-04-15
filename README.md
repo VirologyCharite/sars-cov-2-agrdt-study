@@ -56,6 +56,11 @@ This file can be obtained upon request to the authors. It contains data from emp
 26. `samplingMonth2`: The time of sampling given in two-months intervals
  (starting in Dec. 2020).
 27. `reasonPres`: The reason for presentation at the test centre.
+28. `infectionKey`: A key specifying an infection.
+29. 16 binary columns specifying presence of the following symptoms: feeling ill (`ill`),
+    `fatigue`, `headache`, `vertigo`, `melalgia`, `fever`, `cough`, runny nose (`runnyNose`),
+    sore throat (`soreThroat`), `dyspnea`, loss of sense of smell (`noSmell`), loss of sense
+    of taste (`noTaste`), `nausea`, no appetite (`noAppetite`), `vomiting` and `diarrhea`.
 
 ### abbottVsRocheWildtype.tsv
 
